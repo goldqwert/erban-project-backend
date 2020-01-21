@@ -1,35 +1,18 @@
-let http = require('http');
-let { usersController } = require('./usersController')
+const express = require('express');
+const users = require('./Router/users-router')
 
+const app = express();
 
-let server = http.createServer((req, res) => {
+app.use('/users', users)
 
-    let cors = (req, res) => {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Request-Method', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-        res.setHeader('Access-Control-Allow-Headers', '*');
-        if (req.method === 'OPTIONS') {
-            res.writeHead(200);
-            res.end();
-            return true;
-        }
-        return false
-    }
+app.get('/tasks', async (req, res) => {
+    res.send('tasks');
+});
 
-    if (cors(req, res)) return
-
-    switch (req.url) {
-        case '/users':
-            usersController(req, res)
-            break;
-        case '/lessons':
-            res.write(`tasks`);
-            break;
-        default:
-            res.write('PAGE NOT FOUND');
-            break;
-    }
+app.use((req, res) => {
+    res.sendStatus(404)
 })
 
-server.listen(7543);
+app.listen(7434, () => {
+    console.log('Example app listening on port 3000!');
+});
