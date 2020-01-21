@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
     if (user) {
         res.send(user)
     } else {
-        res.sendStatus(404)
+        res.send(404)
     }
     res.send(users);
 });
