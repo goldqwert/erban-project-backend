@@ -1,9 +1,16 @@
 const express = require('express');
 const users = require('./Router/users-router')
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use('/users', users)
+app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use('/users', users);
 
 app.get('/tasks', async (req, res) => {
     res.send('tasks');

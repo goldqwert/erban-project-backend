@@ -9,6 +9,9 @@ router.use(function timeLog(req, res, next) {
 
 router.get('/', async (req, res) => {
     let users = await getUsers();
+    if (req.query.search) {
+        users = users.filter(u => u.name.indexOf(req.query.search) > -1)
+    }
     res.send(users)
 });
 
@@ -25,7 +28,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const result = await addUser('Lesha');
+    let name = req.body.name;
+    let result = await addUser(name);
     res.send({ success: true })
 });
 
