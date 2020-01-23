@@ -3,6 +3,15 @@ const users = require('./Router/users-router')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/users', {useNewUrlParser: true});
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
+
 const app = express();
 
 app.use(cors());

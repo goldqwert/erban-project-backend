@@ -1,4 +1,4 @@
-const { getUsers, addUser } = require('../repository')
+const { getUsers, addUser, deleteUser, getUser, updateUser } = require('../repository')
 const express = require('express');
 const router = express.Router();
 
@@ -17,8 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const userId = req.params.id
-    const users = await getUsers()
-    const user = users.find(u => u.id === userId);
+    const users = await getUser(userId)
     if (user) {
         res.send(user)
     } else {
@@ -29,7 +28,19 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     let name = req.body.name;
-    let result = await addUser(name);
+    await addUser(name);
+    res.send({ success: true })
+});
+
+router.delete('/:id', async (req, res) => {
+    const users = await deleteUser(req.params.id)
+    res.send(204);
+});
+
+router.put('/', async (req, res) => {
+    let name = req.body.name;
+    let id = req.body.id;
+    await updateUser(id, name);
     res.send({ success: true })
 });
 
